@@ -1,0 +1,17 @@
+.form-invite{
+    border: 1px solid black;
+    width: 35%;
+    margin: auto;
+}
+.form-title hr{
+  color: black;
+}
+.ant-form-item .ant-form-item-control-input-content input{
+    margin-left: 13%;
+}
+.ant-form-item-control-input-content .btn-ok{
+    margin-right: 6%;
+}
+/* .ant-form-item-row ant-col-offset-8{
+    margin-left: 9.33333333%;
+} */

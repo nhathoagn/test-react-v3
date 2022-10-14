@@ -1,0 +1,36 @@
+.question-header{
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
+    margin-left: 24%;
+    margin-top: 5%;
+}
+.player-name{
+    font-size: 22px;
+    margin-right: 45%;
+    margin-top: 2%;
+}
+.answer{
+    gap: 10px;
+}
+.btn-submit-answers{
+    margin-top: 3%;
+}
+.btn-yes{
+    margin-right: 3%;
+}
+.round h2 {
+    margin-right: 5%;
+}
+.container-round{
+    width: 80%;
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 12%;
+}
+.round-element{
+    width: 20%;
+}
+.currentUser{
+    color: red;
+}
