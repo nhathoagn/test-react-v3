@@ -2,12 +2,17 @@ import { Button } from "antd";
 import React from "react";
 import './loadingPage.css'
 import { useSelector } from 'react-redux';
-import AnwserPage from '../../components/answer/answer';
+import AnwserComponent from '../../components/answer/answer';
+import { useNavigate } from 'react-router-dom';
 const LoadingPage = () => {
+    const navigate = useNavigate
     const totalPlayer = useSelector(state => state.player.username)
     console.log("totalPlayer",totalPlayer);
     const totalRound = useSelector(state => state.question.totalRound)
     const roundCount = Array(totalRound).fill('')
+    const answer = useSelector( state => state.question.answerApi)
+    console.log("answerAPI",answer);
+    console.log("totalRound",totalRound);
     
     return(
         
@@ -28,14 +33,14 @@ const LoadingPage = () => {
             <div className="container-round">
                 {roundCount.map( (value,index) =>{
                    return ( 
-                    <AnwserPage key={index} index={index}/>
+                    <AnwserComponent key={index} index={index}/>
                    )  
                 }
                 )}
                 
             </div>
             <div className="btn-submit-answers">
-                <Button type="primary" loading>Loading</Button>
+                <Button type="primary" loading >Loading</Button>
             </div>
         </div>
     )

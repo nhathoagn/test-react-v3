@@ -3,12 +3,12 @@ import { Button } from "antd";
 import { useDispatch } from 'react-redux';
 import { saveAnswerUser } from "../../store/slices/questionSlide/questionSlide";
 const Round = (props) => {
- const {index,currentUser} = props
+ const {index,currentUser,Date} = props
  console.log("day la props",props);
  console.log("currentuse",currentUser);
  const dispatch = useDispatch()
  const handleAnswer = (answer) =>{
-    dispatch(saveAnswerUser({answer,currentUser}))
+    dispatch(saveAnswerUser({answer,currentUser,round: index + 1,date: Date}))
  }
 
   return (

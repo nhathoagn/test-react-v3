@@ -4,17 +4,27 @@ import useAxios from "../../api/axios";
 import { useDispatch } from "react-redux";
 import { saveAnswerAPI } from "../../store/slices/questionSlide/questionSlide";
 import './anwser.css'
-const AnwserPage = (props) => {
+import {useNavigate} from 'react-router-dom'
+import {useSelector} from 'react-redux'
+const AnwserComponent= (props) => {
+  const navigate = useNavigate()
   const dispatch = useDispatch();
+  const totalRound = useSelector(state => state.question.totalRound)
   const { index } = props;
   let apiUrl = "https://yesno.wtf/api";
   const { response } = useAxios({ url: apiUrl });
-  console.log("day la response answer");
+  console.log("day la response answer",props);
   useEffect(() => {
     if(response){
-      dispatch(saveAnswerAPI({answers: response.answer, image: response.image}));
+      dispatch(saveAnswerAPI({answers: response.answer, image: response.image,round: index + 1}));
     }
-  });
+    else if(index + 1 === totalRound){
+      setTimeout( ()=>{
+        navigate('/answerPage')
+      },3000)
+  }
+    
+  },[response]);
   console.log("data-response", response);
   return (
     <div className="container-anwserpage">
@@ -29,4 +39,4 @@ const AnwserPage = (props) => {
     </div>
   );
 };
-export default AnwserPage;
+export default AnwserComponent;

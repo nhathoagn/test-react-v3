@@ -2,8 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   totalRound: 0,
   answerUser: [],
-  answerApi: []
-
+  answerApi: [],
+  arr: [],
+  dataTable: []
 };
 
 const QuestionSlide = createSlice({
@@ -19,8 +20,15 @@ const QuestionSlide = createSlice({
         },
         saveAnswerAPI(state,action){
             state.answerApi.push(action.payload)
+        },
+        saveResult(state,action){
+            console.log("saveResult",action.payload);
+            state.arr.push(action.payload)
+        },
+        saveDataTable(state,action){
+            state.dataTable.push(action.payload)
         }
     }
 })
-export const {saveTotalRound,saveAnswerUser,saveAnswerAPI} = QuestionSlide.actions
+export const {saveTotalRound,saveAnswerUser,saveAnswerAPI,saveResult,changeScore,saveDataTable} = QuestionSlide.actions
 export default QuestionSlide.reducer

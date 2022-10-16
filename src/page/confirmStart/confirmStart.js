@@ -62,7 +62,7 @@ const ConFirmPage = () => {
         </div>
         <div className={player.length > 1 ? "disable" : "add-more-player"} >
         <Button type="primary" onClick={showModal}>
-        Open Modal
+        Add More Player
       </Button>
       <Modal title="Please enter a name" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
         <div className="input-title">User name:</div>

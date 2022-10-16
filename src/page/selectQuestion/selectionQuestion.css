@@ -7,8 +7,9 @@
 }
 .player-name{
     font-size: 22px;
-    margin-right: 45%;
+    margin-left: 24%;
     margin-top: 2%;
+    display: flex;
 }
 .answer{
     gap: 10px;

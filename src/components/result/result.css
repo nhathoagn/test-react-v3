@@ -1,0 +1,23 @@
+.result-content{
+    border: 1px solid gray;
+    background-color: gray;
+    width: 88%;
+    display: flex;
+}
+.result{
+    /* margin-right: 64%; */
+}
+.winner{
+    /* margin-right: 50%; */
+}
+.result-content-left{
+    width: 70%;
+}
+.result-content-right img{
+    width: 50%;
+    margin-top: 6%;
+    margin-left: 28%;
+}
+.container-result{
+    text-align: start;
+}
