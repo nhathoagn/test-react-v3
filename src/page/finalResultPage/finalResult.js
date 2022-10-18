@@ -3,7 +3,7 @@ import React, {useState,useEffect} from "react";
 import './finalResult.css'
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { saveDataTable } from "../../store/slices/questionSlide/questionSlide";
+import { saveDataTable1, saveDataTable2 } from "../../store/slices/questionSlide/questionSlide";
 
   const data = [
     {
@@ -21,27 +21,25 @@ import { saveDataTable } from "../../store/slices/questionSlide/questionSlide";
     
 
   ];
-  console.log(12,data);
+
  const HandleData = () => {
   const dispatch = useDispatch()
   const total = useSelector(state => state.question.arr)
   const arr2 = []
   // let dataTable = []
   const player = useSelector(state => state.player.username)
-  // console.log("player",player);
+
   const dataUser = useSelector(state => state.question.answerUser)
   const dataAPI = useSelector(state => state.question.answerApi)
-  // console.log("answerUser-FinalResultPage",answerUser);
+
   const totalRound = useSelector(state => state.question.totalRound)
- 
+  const result = useSelector(state => state.question.arr)
  
   useEffect( ()=>{
     let key = "currentUser"
    score(total,key)
    filterDataTable()
   },[total])
-  console.log("arr2",arr2);
-  // console.log("dataTable",dataTable);
 
   const score = (arr,key) =>{
     // let arr2 = [];
@@ -65,7 +63,8 @@ import { saveDataTable } from "../../store/slices/questionSlide/questionSlide";
   }
   const filterDataTable = () => {
     let scoreTotal = []
-   
+    let dataTable1 = []
+    let dataTable2 = []
     let percent = []
     arr2.map( (data, index) => {
         player.map( (value,key) => {
@@ -86,26 +85,62 @@ import { saveDataTable } from "../../store/slices/questionSlide/questionSlide";
             percent.push({username: data.currentUser, percent: percentUser})
         }
     })
-    // console.log(percent)
-    //
-    //
-    // console.log("1",scoreTotal)
-        for (let i = 0; i< player.length; i++){
-        dispatch(saveDataTable({key: i + 1,no: i + 1,name:player[i].username, date: dataUser[i].date,answer: dataUser[i].answer, result:dataAPI[i].answer,score: scoreTotal[i].score,summary:player[i].username,percent: percent[i].percent,totalScore: scoreTotal[i].score})) 
-        }
+   
+        // for (let i = 0; i< player.length; i++){
+        // dispatch(saveDataTable({key: i + 1,no: i + 1,name:player[i].username, date: dataUser[i].date,answer: dataUser[i].answer, result:dataAPI[i].answers,score: scoreTotal[i].score,summary:player[i].username,percent: percent[i].percent,totalScore: scoreTotal[i].score})) 
+        // }
+        let dataRaw = dataUser.concat(dataAPI,player,result,scoreTotal)
+        // console.log(dataRaw)
+    
+        //
+        //
+        // console.log("1",scoreTotal)
+        // dataTable.push({key: i,no: i + 1,name:player[i].username, date: dataUser[i].date,answer: dataUser[i].answer, result:dataAPI[i].answer,score: scoreTotal[i].score,summary:player[i].username,percent: percent[i].percent,totalScore: scoreTotal[i].score})
+    
+        player.map( (data) =>{
+            for (let h = 1; h <= totalRound;h++){
+                dataAPI.map( (x)=>{
+                    result.map( (y)=>{
+                        scoreTotal.map( (z)=>{
+                            percent.map( (q) =>{
+                                dataUser.map( (p,index) =>{
+                                    if ((data.username === p.currentUser) && (p.round ==x.round) && (p.round==y.round) && (z.currentUser === data.username) && (data.username === q.username)){
+                                        // dataTable.push(data,x,y,z,p,q)
+                                        dataTable1.push({key:index,name:data.username,no:index +1,result:x.answers,answer:p.answer,score:z.score,date: p.date,summary:data.username,totalScore:z.score,percent:q.percent})
+                                        dataTable2.push({summary:data.username,totalScore:z.score,percent:q.percent})
+                                    }
+                                })
+                            })
+                        })
+                    })
+                })
+            }
+    
+    
+        })
+        // console.log(dataTable)
+        let dataFinal1 = Array.from(new Set(dataTable1.map(JSON.stringify))).map(JSON.parse);
+        let dataFinal2 = Array.from(new Set(dataTable2.map(JSON.stringify))).map(JSON.parse);
+        // let dataFinal = Array.from(new Set(dataTable)) //
+        dispatch(saveDataTable1(dataFinal1))
+        dispatch(saveDataTable2(dataFinal2))
+        console.log(11,dataFinal1)
+        
+    
 
-
-  //  return dataTable
+  
 }
  }
 const FinalResultPage = () => {
     HandleData()
-  // console.log("total",total);
+
   
 
 
-   const dataTable = useSelector(state => state.question.dataTable)
-   console.log(15,dataTable);
+   const dataTable1 = useSelector(state => state.question.dataTable1)
+   const dataTable2 = useSelector(state => state.question.dataTable2)
+   console.log(15,dataTable1);
+   console.log(16,dataTable2);
 
 
     const onChange = (pagination, filters, sorter, extra) => {
@@ -165,8 +200,8 @@ const FinalResultPage = () => {
     },
     {
       title: 'Core',
-      dataIndex: 'core',
-      key: 'core',
+      dataIndex: 'score',
+      key: 'score',
     },
   ];
   const columns2 = [
@@ -187,7 +222,7 @@ const FinalResultPage = () => {
     }
   ]
 
-
+  console.log("datatable",dataTable2);
    return(
     <div className="container-final-result">
         <div className="final-result-header">
@@ -199,8 +234,8 @@ const FinalResultPage = () => {
             </p>
         </div>
         <div className="final-result-content">
-        <Table columns={columns1} dataSource={dataTable} pagination={false} className="table-1" onChange={handleChange} />
-             <Table columns={columns2} dataSource={dataTable} pagination={false} className="table-2"/>
+        <Table columns={columns1} dataSource={dataTable1} pagination={false} className="table-1" onChange={handleChange} />
+             <Table columns={columns2} dataSource={dataTable2} pagination={false} className="table-2"/>
           
         </div>
     </div>

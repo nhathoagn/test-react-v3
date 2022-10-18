@@ -14,8 +14,6 @@ const AnswerPage = () => {
     const answerAPI = useSelector(state => state.question.answerApi)
     const answerUser = useSelector(state => state.question.answerUser)
     const arr = []
-    console.log("answerAPI",answerAPI);
-    console.log("answerUser",answerUser);
     const [score,setScore] = useState(0)
    const Check = () => {
     
@@ -29,7 +27,6 @@ const AnswerPage = () => {
    }
     useEffect( ()=>{ 
       Check()
-      console.log("aaaaaawdsd",arr);
     },[])
    
   return (

@@ -9,7 +9,6 @@ import { Link, useNavigate } from "react-router-dom";
 const QuestionPage = () => {
     const navigate = useNavigate()
     const totalPlayer = useSelector(state => state.player.username)
-    console.log("totalPlayer",totalPlayer);
     const totalRound = useSelector(state => state.question.totalRound)
     const roundCount = Array(totalRound).fill('')
     const [userIndex,setUserIndex] = useState(0)
@@ -19,18 +18,17 @@ const QuestionPage = () => {
           hour12: true
       })
     const [currentUser,setCurrentUser] = useState(totalPlayer[userIndex])
-    // console.log("currentUser",currentUser.username);
-    console.log("userIndex",userIndex);
     const handleSubmit = async () => {
         if((userIndex +1) < totalPlayer.length){
            setUserIndex(userIndex + 1)
-            // console.log("new-userIndex",userIndex);
-            setCurrentUser(totalPlayer[userIndex+1])
-            console.log("currentUser",currentUser.username);
+           
         }else{
             navigate('/loadingPage')
         }
     }
+    useEffect( ()=>{
+        setCurrentUser(totalPlayer[userIndex])
+    },[userIndex])
     return(
         
         <div className="container-question">

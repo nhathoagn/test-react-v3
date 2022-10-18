@@ -9,7 +9,7 @@ const NewPlayer = () => {
     const natigate = useNavigate()
     const dispatch = useDispatch()
   const onFinish = (values) => {
-    console.log("Success:", values);
+   
     dispatch(addplayer(values))
     natigate('/confirmStart')
 

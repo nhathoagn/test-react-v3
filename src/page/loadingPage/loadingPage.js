@@ -7,12 +7,11 @@ import { useNavigate } from 'react-router-dom';
 const LoadingPage = () => {
     const navigate = useNavigate
     const totalPlayer = useSelector(state => state.player.username)
-    console.log("totalPlayer",totalPlayer);
+  
     const totalRound = useSelector(state => state.question.totalRound)
     const roundCount = Array(totalRound).fill('')
     const answer = useSelector( state => state.question.answerApi)
-    console.log("answerAPI",answer);
-    console.log("totalRound",totalRound);
+
     
     return(
         

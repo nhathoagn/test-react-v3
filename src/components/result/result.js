@@ -4,9 +4,9 @@ import Round from '../round/round';
 import { useSelector } from 'react-redux';
 const ResultComponent = (props) => {
     const {index} = props
-    console.log("day la props resultcomponent",props);
+   
     const data = useSelector(state => state.question.arr)
-    console.log("day roi",data);
+ 
   return(
     <div className="container-result">
         <div className="result-round">

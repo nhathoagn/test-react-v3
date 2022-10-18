@@ -31,7 +31,6 @@ const ConFirmPage = () => {
     setIsModalOpen(true);
   };
   const handleOk = async (values) => {
-    console.log("value-modal",values);
     setIsModalOpen(false);
    await dispatch(addplayer({username: username}))
    await setUserName()
@@ -40,13 +39,11 @@ const ConFirmPage = () => {
     setIsModalOpen(false);
   };
     const player = useSelector(state => state.player.username)
-    console.log("player",player);
     const data = []
     player.map((value,id) =>{
         let user = {key: id + 1,name: value.username,no: id+1}
         data.push(user)
     })
-    console.log("datauser",data);
     
     const handleInput = (e) => {
         setUserName(e.target.value)

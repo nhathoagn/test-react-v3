@@ -13,7 +13,7 @@ const AnwserComponent= (props) => {
   const { index } = props;
   let apiUrl = "https://yesno.wtf/api";
   const { response } = useAxios({ url: apiUrl });
-  console.log("day la response answer",props);
+ 
   useEffect(() => {
     if(response){
       dispatch(saveAnswerAPI({answers: response.answer, image: response.image,round: index + 1}));
@@ -25,7 +25,7 @@ const AnwserComponent= (props) => {
   }
     
   },[response]);
-  console.log("data-response", response);
+ 
   return (
     <div className="container-anwserpage">
       <div className="round-element" key={index}>

@@ -4,7 +4,8 @@ const initialState = {
   answerUser: [],
   answerApi: [],
   arr: [],
-  dataTable: []
+  dataTable1: '',
+  dataTable2: ''
 };
 
 const QuestionSlide = createSlice({
@@ -15,20 +16,21 @@ const QuestionSlide = createSlice({
             state.totalRound = action.payload
         },
         saveAnswerUser(state,action){
-            console.log("action-saveanswer",action.payload);
             state.answerUser.push(action.payload)
         },
         saveAnswerAPI(state,action){
             state.answerApi.push(action.payload)
         },
         saveResult(state,action){
-            console.log("saveResult",action.payload);
             state.arr.push(action.payload)
         },
-        saveDataTable(state,action){
-            state.dataTable.push(action.payload)
+        saveDataTable1(state,action){
+            state.dataTable1 = (action.payload)
+        },
+        saveDataTable2(state,action){
+            state.dataTable2 = (action.payload)
         }
     }
 })
-export const {saveTotalRound,saveAnswerUser,saveAnswerAPI,saveResult,changeScore,saveDataTable} = QuestionSlide.actions
+export const {saveTotalRound,saveAnswerUser,saveAnswerAPI,saveResult,changeScore,saveDataTable1,saveDataTable2} = QuestionSlide.actions
 export default QuestionSlide.reducer
