@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
-    username: []
+    username: [],
+    winner: ''
 };
 const PlayerSlice = createSlice({
     name: 'player',
@@ -8,8 +9,11 @@ const PlayerSlice = createSlice({
     reducers: {
         addplayer(state, action){
             state.username.push(action.payload)
+        },
+        saveWinner(state, action){
+            state.winner = action.payload
         }
     }
 })
-export const {addplayer} = PlayerSlice.actions
+export const {addplayer, saveWinner} = PlayerSlice.actions
 export default PlayerSlice.reducer

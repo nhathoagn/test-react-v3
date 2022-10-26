@@ -61,24 +61,24 @@
 // })
 // console.log(time);
 
-var score1
-var score = 0 
-const data = [
+// var score1
+// var score = 0 
+// const data = [
 
-  {answer: 'no', currentUser: 'hoang', image: 'https://yesno.wtf/assets/no/13-755222c98795431aa2e7d453ab1e75a1.gif', round: 1},
+//   {answer: 'no', currentUser: 'hoang', image: 'https://yesno.wtf/assets/no/13-755222c98795431aa2e7d453ab1e75a1.gif', round: 1},
 
-{answer: 'no', currentUser: 'hoang', image: 'https://yesno.wtf/assets/no/13-755222c98795431aa2e7d453ab1e75a1.gif', round: 2}
-]
-// const myArray = [false, 24, "English", false, "english", 22, 19, false, "English", 19];
-const allStudentsAge = [19, 22, 18, 19, 16, 18, 19, 21, 24];
-data.map( (value,index) =>{
-    const name = value.currentUser
-    if(value.currentUser === name){
-       score1 = {user: value.currentUser, score: score + 1}
-    }
+// {answer: 'no', currentUser: 'hoang', image: 'https://yesno.wtf/assets/no/13-755222c98795431aa2e7d453ab1e75a1.gif', round: 2}
+// ]
+// // const myArray = [false, 24, "English", false, "english", 22, 19, false, "English", 19];
+// const allStudentsAge = [19, 22, 18, 19, 16, 18, 19, 21, 24];
+// data.map( (value,index) =>{
+//     const name = value.currentUser
+//     if(value.currentUser === name){
+//        score1 = {user: value.currentUser, score: score + 1}
+//     }
 
-})
-console.log(score1);
+// })
+// console.log(score1);
 
 
 
@@ -105,3 +105,9 @@ console.log(score1);
     //   }
     //   }
     // })
+    const moment = require('moment');
+
+    let now = moment();
+    console.log(now.format("YYYY/MM/DD HH:mm:ss"));
+
+

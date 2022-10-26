@@ -4,23 +4,13 @@ import './finalResult.css'
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { saveDataTable1, saveDataTable2 } from "../../store/slices/questionSlide/questionSlide";
+import { Space,Input } from 'antd';
+import { saveWinner } from "../../store/slices/playerSlide/player";
+import { DatePicker} from 'antd';
+import moment from 'moment';
+const { RangePicker } = DatePicker;
 
-  const data = [
-    {
-      key: 1,
-      name: 'John Brown',
-      no: 32,
-      date: 'New York No. 1 Lake Park',
-      answer: 'yes',
-      result: 'no',
-      core: 1,
-      summary: 'hoang',
-      percent: '10%',
-      totalScore: 12
-    },
-    
-
-  ];
+const { Search } = Input;
 
  const HandleData = () => {
   const dispatch = useDispatch()
@@ -34,7 +24,7 @@ import { saveDataTable1, saveDataTable2 } from "../../store/slices/questionSlide
 
   const totalRound = useSelector(state => state.question.totalRound)
   const result = useSelector(state => state.question.arr)
- 
+  
   useEffect( ()=>{
     let key = "currentUser"
    score(total,key)
@@ -85,7 +75,7 @@ import { saveDataTable1, saveDataTable2 } from "../../store/slices/questionSlide
             percent.push({username: data.currentUser, percent: percentUser})
         }
     })
-   
+  
         // for (let i = 0; i< player.length; i++){
         // dispatch(saveDataTable({key: i + 1,no: i + 1,name:player[i].username, date: dataUser[i].date,answer: dataUser[i].answer, result:dataAPI[i].answers,score: scoreTotal[i].score,summary:player[i].username,percent: percent[i].percent,totalScore: scoreTotal[i].score})) 
         // }
@@ -102,11 +92,16 @@ import { saveDataTable1, saveDataTable2 } from "../../store/slices/questionSlide
                 dataAPI.map( (x)=>{
                     result.map( (y)=>{
                         scoreTotal.map( (z)=>{
+                          if(z.score > 0){
+                           Object.assign(z,{point: 1})
+                          }else{
+                            Object.assign(z,{point: 0})
+                          }
                             percent.map( (q) =>{
                                 dataUser.map( (p,index) =>{
                                     if ((data.username === p.currentUser) && (p.round ==x.round) && (p.round==y.round) && (z.currentUser === data.username) && (data.username === q.username)){
-                                        // dataTable.push(data,x,y,z,p,q)
-                                        dataTable1.push({key:index,name:data.username,no:index +1,result:x.answers,answer:p.answer,score:z.score,date: p.date,summary:data.username,totalScore:z.score,percent:q.percent})
+                                     
+                                      dataTable1.push({key:index,name:data.username,no:index +1,result:x.answers,answer:p.answer,score:z.point ,date: p.date,summary:data.username,totalScore:z.score,percent:q.percent})
                                         dataTable2.push({summary:data.username,totalScore:z.score,percent:q.percent})
                                     }
                                 })
@@ -119,12 +114,16 @@ import { saveDataTable1, saveDataTable2 } from "../../store/slices/questionSlide
     
         })
         // console.log(dataTable)
+        let winner = JSON.stringify(scoreTotal.reduce(function(prev, current) { 
+        return (prev.score > current.score) ? prev.currentUser : current.currentUser  }))
+
         let dataFinal1 = Array.from(new Set(dataTable1.map(JSON.stringify))).map(JSON.parse);
         let dataFinal2 = Array.from(new Set(dataTable2.map(JSON.stringify))).map(JSON.parse);
-        // let dataFinal = Array.from(new Set(dataTable)) //
+        
         dispatch(saveDataTable1(dataFinal1))
         dispatch(saveDataTable2(dataFinal2))
-        console.log(11,dataFinal1)
+        dispatch(saveWinner(JSON.parse(winner)))
+       
         
     
 
@@ -133,22 +132,31 @@ import { saveDataTable1, saveDataTable2 } from "../../store/slices/questionSlide
  }
 const FinalResultPage = () => {
     HandleData()
-
-  
-
-
    const dataTable1 = useSelector(state => state.question.dataTable1)
    const dataTable2 = useSelector(state => state.question.dataTable2)
-   console.log(15,dataTable1);
-   console.log(16,dataTable2);
+   const winner = useSelector( state => state.player.winner)
+   const [data,setData] = useState([])
+
+   const onChange = (dates, dateStrings) => {
+    if (dates) {
+      console.log('From: ', dates[0], ', to: ', dates[1]);
+      console.log('From: ', dateStrings[0], ', to: ', dateStrings[1]);
+      setData('')
+     dataTable1.map( (value) => {
+      console.log(99,value.date);
+      if(moment(value.date).isBetween(dateStrings[0],dateStrings[1])){
+        setData([value])
+      }else{
+        setData([])
+      }
+     })
+    } else {
+      console.log('Clear');
+    }
+  };
 
 
-    const onChange = (pagination, filters, sorter, extra) => {
-        console.log('params', pagination, filters, sorter, extra);
-      };
-
-
-
+ 
       const [filteredInfo, setFilteredInfo] = useState({});
   const [sortedInfo, setSortedInfo] = useState({});
   const handleChange = (pagination, filters, sorter) => {
@@ -221,7 +229,20 @@ const FinalResultPage = () => {
       key: 'totalScore',
     }
   ]
-
+  const onSearch = (value) =>{
+    if(!value){
+      setData([])
+    }else{
+      dataTable1.map( (data)=>{
+        if(data.name === value){
+          setData([data])
+        
+        }
+    })
+    }
+        
+  }
+  console.log("dataState",data);
   console.log("datatable",dataTable2);
    return(
     <div className="container-final-result">
@@ -233,10 +254,40 @@ const FinalResultPage = () => {
                 Final Result
             </p>
         </div>
+        <div className="search-user">
+        <Space direction="vertical">
+  
+          <Search placeholder="input search text" onSearch={onSearch} enterButton />
+  
+        </Space>
+        </div>
+        <div className="match-time">
+        <Space direction="vertical" size={12}>
+          <RangePicker 
+          ranges={{
+            Today: [moment(), moment()],
+            'This Month': [moment().startOf('month'), moment().endOf('month')],
+          }}
+          showTime
+          format="YYYY/MM/DD HH:mm:ss"
+          onChange={onChange}
+          />
+        </Space>
+        </div>
         <div className="final-result-content">
-        <Table columns={columns1} dataSource={dataTable1} pagination={false} className="table-1" onChange={handleChange} />
-             <Table columns={columns2} dataSource={dataTable2} pagination={false} className="table-2"/>
+        <Table columns={columns1} dataSource={data.length >0 ? data : dataTable1} pagination={false} className="table-1" onChange={handleChange} />
+             <Table columns={columns2} dataSource={data.length >0 ? data : dataTable2} pagination={false} className="table-2"/>
           
+        </div>
+        <div className="result-winner">
+            <p>
+              The winner is: {winner}
+            </p>
+        </div>
+        <div className="final-result-title">
+            <p>
+                End Game
+            </p>
         </div>
     </div>
    )
