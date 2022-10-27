@@ -136,27 +136,22 @@ const FinalResultPage = () => {
    const dataTable2 = useSelector(state => state.question.dataTable2)
    const winner = useSelector( state => state.player.winner)
    const [data,setData] = useState([])
-
+   let tempDate = []
    const onChange = (dates, dateStrings) => {
     if (dates) {
-      console.log('From: ', dates[0], ', to: ', dates[1]);
-      console.log('From: ', dateStrings[0], ', to: ', dateStrings[1]);
       setData('')
      dataTable1.map( (value) => {
-      console.log(99,value.date);
       if(moment(value.date).isBetween(dateStrings[0],dateStrings[1])){
-        setData([value])
-      }else{
+        tempDate.push(value)
+      }else if(!dateStrings){
         setData([])
       }
+      setData(tempDate)
      })
     } else {
       console.log('Clear');
     }
   };
-
-
- 
       const [filteredInfo, setFilteredInfo] = useState({});
   const [sortedInfo, setSortedInfo] = useState({});
   const handleChange = (pagination, filters, sorter) => {
